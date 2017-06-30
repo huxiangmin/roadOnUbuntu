@@ -15,6 +15,7 @@
 安装几次后，出现the system is runing low-graphics mode提示，完全没有界面了（登陆界面都没有了）
 查到网上一个方案：sudo cp /etc/X11/xorg.conf.failsafe /etc/X11/xorg.conf，居然就顺利进入桌
 面了，于是换用ubuntu自带的software&update去更新driver。网速奇慢，等待中。。。
+  更新完成后，重启，黑屏！甚至再使用上边的cp /etc也仍然黑屏，能ctrl+alt+F1切控制台。另外再解决吧
 （B）发现每次做u盘启动盘都需要重新搜索，貌似随便下个做系统的就行，比如用ultraISO简单就做好了。只是
 之前做的一个启动盘，windows下是完全隐藏的，按教程改注册表、组件服务等都失败，从磁盘管理可以看见它，
 而且设备工作正常！
