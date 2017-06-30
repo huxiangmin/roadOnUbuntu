@@ -1,0 +1,35 @@
+（A）update & dist-upgrade之后，显卡显示不正常了（模糊不清），想着重新安装nv显卡驱动。按如下步骤
+ 1. 按alt+ctrl+F1进入命令行界面
+ 2. 输入用户名和密码
+ 3. 关闭xwindow服务（sudo service lightdm stop）
+ 4. 卸载系统自带的nvidia驱动（sudo apt-get remove --purge nvidia-*)
+ 5. 在apt源中加入nvidia驱动源：sudo add-apt-repository ppa:graphic-drivers/ppa
+ 6. 更新apt源：sudo apt-get update
+ 7. 安装nvidia最新驱动：sudo apt-get install nvidia-370 nvidia-prime nvidia-settings
+ 8. 选择nvidia显卡为显示设备：sudo prime-select nvidia
+ 9. 重新启动系统
+  但实际上添加源失败（可能重启后没进入桌面系统，wifi等网络没有建立连接），而且最初卸载nv驱动后，自
+带的驱动也是可以进入桌面的。
+  于是从nv官网下载了对应的版本的.run文件，用sh命令安装，出现提示，是否同意协议，是否注册？?服务，
+是否安装32位兼容等，安完重启发现进不了桌面（输入登陆密码后，仍然跳回登陆界面，死循环），又重新卸载
+安装几次后，出现the system is runing low-graphics mode提示，完全没有界面了（登陆界面都没有了）
+查到网上一个方案：sudo cp /etc/X11/xorg.conf.failsafe /etc/X11/xorg.conf，居然就顺利进入桌
+面了，于是换用ubuntu自带的software&update去更新driver。网速奇慢，等待中。。。
+（B）发现每次做u盘启动盘都需要重新搜索，貌似随便下个做系统的就行，比如用ultraISO简单就做好了。只是
+之前做的一个启动盘，windows下是完全隐藏的，按教程改注册表、组件服务等都失败，从磁盘管理可以看见它，
+而且设备工作正常！
+  最后发现是有EFI分区导致的，按“U盘EFI分区造成Windows不识别”博文
+ 1. win+r启动cmd
+ 2. diskpart开启工具
+ 3. list disk查看物理磁盘
+ 4. select disk {0|1|.} 选择正确的U盘编号
+ 5. clean完成清理，然后在磁盘管理当中格式化即可
+  基本上，EFI是为了更兼容不同bios和grub而存在，不知道能不能在一个U盘里做多个安装镜像！
+（C）cuda8，7.5等不支持gcc 5，一般要安装安装cuda加速，就要gcc降级到比如4.9，而cudnn等gpu加速库
+兼容性极差，对每个用到他们的软件必须搞清楚是否有动态库依赖，没有的话简单的编译时换库版本还是不难的，
+做好记录就行。
+（D）anaconda虽然封装了许多库，便于环境搭建，但容易和系统的库冲突（比如protobuf），或者编译其他软
+件需要细致分析库，反而更麻烦了。系统自带的opencv 2.4.9等也一样，ubuntu本身对多版本的库支持就不友好，
+因为其理念是把各种软件的lib，include放到统一的地方去管理，如果一个程序链接到*.so，它并不指定具体是
+用什么版本儿！就需要自己更改软链接选择合适的版本儿！最好有一个版本管理的脚本，运行某软件去执行后，能
+做相关的链接更改和环境变量更改。不知道有没有这样的软件。
