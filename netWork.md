@@ -17,26 +17,26 @@
   iwconfig wlan0  
   dhclient wlan0}
 * 或者手动改成如下内容：
-> ctrl_interface=/var/run/wpa_supplicant
-  ap_scan=1
-  network={
-        ssid="[your SSID name]"
-        psk="[your WiFi password]"
-        priority=1
+> ctrl_interface=/var/run/wpa_supplicant  
+  ap_scan=1  
+  network={  
+        ssid="[your SSID name]"  
+        psk="[your WiFi password]"  
+        priority=1  
   }
 * sudo wpa_supplicant -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 * 最后，无论是连到开放的网络还是加密的安全网络，您都得获取 IP 地址。使用命令dhclient wlan0　或 dhcpcd wlan0
-<a>比较完整的网络配置说明</a> <http://blog.csdn.net/judwenwen2009/article/details/17026389>
+## （B）比较完整的网络配置说明 <http://blog.csdn.net/judwenwen2009/article/details/17026389>
 * 无法上网，右上角显示感叹号，先检查/etc/network/interfaces文件，内容居然只有：
-` auto lo
-  iface lo inet loopback`
+> auto lo  
+  iface lo inet loopback
 * eth0和wlan0的配置都不见了！增加如下配置：
-`   auto eth0  
-    ifcace eth0 inet static //学校网络要求是配置静态IP，如果是动态获取IP下边的几行就不需要，改成iface eth0 inet dhcp就可以了  
-    address xx  
-    gateway xx  
-    netmask xx  
-    auto wlan0  
-    iface wlan0 inet dhcp`
+> auto eth0  
+  ifcace eth0 inet static //学校网络要求是配置静态IP，如果是动态获取IP下边的几行就不需要，改成iface eth0 inet dhcp就可以了  
+  address xx  
+  gateway xx  
+  netmask xx  
+  auto wlan0  
+  iface wlan0 inet dhcp`
 * 同时，有线网络的dns也不见了，在/etc/resolv.conf中添加 namesever XX {一般是google的8.8.8.8 dns}
 * 重启网络/etc/init.d/networking restart
