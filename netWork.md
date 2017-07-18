@@ -12,31 +12,37 @@
 ###### 如果网络使用的是WPA或者WPA2协议，则需要使用一个叫做wpasupplicant的工具，通过如下命令可以自动安装：
 * sudo apt install wpasupplicant
 * 然后vi一个配置文件[/etc/wpasupplicant/wpa_supplicant.conf],可以用
-> wpa_passphrase ESSID PWD > xxx.conf  
-  {wpa_supplicant -B -i wlan0 -Dwext -c ./xxx.conf  
-  iwconfig wlan0  
-  dhclient wlan0}
+> wpa_passphrase ESSID PWD > xxx.conf  <br>
+  {wpa_supplicant -B -i wlan0 -Dwext -c ./xxx.conf <br> 
+  iwconfig wlan0  <br>
+  dhclient wlan0}<br>
 * 或者手动改成如下内容：
-> ctrl_interface=/var/run/wpa_supplicant  
-  ap_scan=1  
-  network={  
-        ssid="[your SSID name]"  
-        psk="[your WiFi password]"  
-        priority=1  
-  }
-* sudo wpa_supplicant -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+> ctrl_interface=/var/run/wpa_supplicant  <br>
+  ap_scan=1  <br>
+  network={  <br>
+        ssid="[your SSID name]"  <br>
+        psk="[your WiFi password]"  <br>
+        priority=1  <br>
+  }<br>
+* sudo wpa_supplicant -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf<br>
 * 最后，无论是连到开放的网络还是加密的安全网络，您都得获取 IP 地址。使用命令dhclient wlan0　或 dhcpcd wlan0
 ## （B）比较完整的网络配置说明 <http://blog.csdn.net/judwenwen2009/article/details/17026389>
 * 无法上网，右上角显示感叹号，先检查/etc/network/interfaces文件，内容居然只有：
-> auto lo  
-  iface lo inet loopback
+> auto lo  <br>
+  iface lo inet loopback<br>
 * eth0和wlan0的配置都不见了！增加如下配置：
-> auto eth0  
-  ifcace eth0 inet static //学校网络要求是配置静态IP，如果是动态获取IP下边的几行就不需要，改成iface eth0 inet dhcp就可以了  
-  address xx  
-  gateway xx  
-  netmask xx  
-  auto wlan0  
-  iface wlan0 inet dhcp`
+<code> auto eth0  <br>
+  ifcace eth0 inet static //学校网络要求是配置静态IP，如果是动态获取IP下边的几行就不需要，改成iface eth0 inet dhcp就可以了  <br>
+  address xx  <br>
+  gateway xx  <br>
+  netmask xx  <br>
+  auto wlan0  <br>
+  iface wlan0 inet dhcp</code><br>
 * 同时，有线网络的dns也不见了，在/etc/resolv.conf中添加 namesever XX {一般是google的8.8.8.8 dns}
 * 重启网络/etc/init.d/networking restart
+
+## （C）桌面图标配置拨号上网
+* 右上角图标 -->编辑连接
+
+
+
