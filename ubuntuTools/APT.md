@@ -8,4 +8,6 @@
 * aptitude 
 * apt-cache [search | show | showpkg | pkgnames] [-S | -L | -l]
 * apt-file
-### (B) 
+### (B) Ubuntu APT常用命令参数
+<https://www.linuxidc.com/Linux/2012-06/63069.htm>
+相关参考 <http://www.runoob.com/linux/linux-yum.html>
